@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizer Dashboard</title>
+  <link rel="stylesheet" href="styles/dashboard.css" />
+</head>
+<body>
+  <form id="clubForm">
+    <h2>📚 Add New Book Club</h2>
+
+    <input type="text" id="clubName" placeholder="Club Name" required />
+    <input type="text" id="genre" placeholder="Genre / Category" required />
+    <textarea id="description" placeholder="Detailed Description" required></textarea>
+    <input type="text" id="cover" placeholder="Cover Image URL" required />
+    <input type="number" id="capacity" placeholder="Max Members" required />
+
+    <button type="submit">➕ Add Club</button>
+  </form>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    
+    // Restrict access to only organizers
+    if (!user || user.role !== "organizer") {
+      alert("Access denied! Organizer only.");
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("clubForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+      const newClub = {
+        id: Date.now(),
+        name: document.getElementById("clubName").value,
+        genre: document.getElementById("genre").value,
+        description: document.getElementById("description").value,
+        cover: document.getElementById("cover").value,
+        maxMembers: parseInt(document.getElementById("capacity").value),
+        currentMembers: 0,
+        organizer: user.username
+      };
+
+      clubs.push(newClub);
+      localStorage.setItem("clubs", JSON.stringify(clubs));
+      alert("Club Added!");
+      location.href = "admin_portal.html"; // Optional: redirect to admin portal after adding
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Club Members | Book Club Hub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f8fb;
+      margin: 0;
+      padding: 30px 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .club-name {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .members-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .member-card {
+      background: #ffffff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .member-card:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .member-card p {
+      margin: 5px 0;
+      font-size: 1rem;
+    }
+
+    .no-members {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #888;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 40px auto 0;
+      padding: 10px 20px;
+      background: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1rem;
+      text-align: center;
+      width: fit-content;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 Club Members</h1>
+  <div id="clubName" class="club-name"></div>
+  <div class="members-container" id="membersContainer"></div>
+  <a href="admin_portal.html" class="back-btn">⬅ Back to Admin Portal</a>
+
+  <script>
+    const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+    const selectedClubId = parseInt(localStorage.getItem("viewClubId"));
+    const selectedClub = clubs.find(c => c.id === selectedClubId);
+    const members = JSON.parse(localStorage.getItem(`members_${selectedClubId}`)) || [];
+
+    const clubNameEl = document.getElementById("clubName");
+    const membersContainer = document.getElementById("membersContainer");
+
+    if (selectedClub) {
+      clubNameEl.textContent = `${selectedClub.name} (${members.length}/${selectedClub.maxMembers} members)`;
+      
+      if (members.length > 0) {
+        members.forEach(member => {
+          const div = document.createElement("div");
+          div.className = "member-card";
+          div.innerHTML = `
+            <p><strong>👤 Name:</strong> ${member.name}</p>
+            <p><strong>📧 Email:</strong> ${member.email}</p>
+            <p><strong>🕒 Joined At:</strong> ${member.joinedAt}</p>
+          `;
+          membersContainer.appendChild(div);
+        });
+      } else {
+        membersContainer.innerHTML = `<p class="no-members">No members have joined yet.</p>`;
+      }
+    } else {
+      membersContainer.innerHTML = `<p class="no-members">❌ Club not found.</p>`;
+    }
+  </script>
+</body>
+</html>

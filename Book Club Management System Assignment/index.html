@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📚 Book Club Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo-title">
+        <img src="assets/images/Book Club.png" alt="Book Club Logo" class="logo" />
+        <div class="site-name">Book Club Hub</div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="register.html">Register</a>
+        <a href="login.html">Login</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="assets/images/banner1.jpeg" alt="Books Banner" class="hero-img" />
+    <div class="hero-text">
+      <h1>📖 Explore Clubs & Connect with Readers</h1>
+      <p>Join your next favorite book club today!</p>
+    </div>
+  </section>
+
+  <!-- Search Bar -->
+  <section class="search-area">
+    <input type="text" id="searchInput" placeholder="🔍 Search by name, genre, or organizer..." />
+    <button id="searchBtn">Search</button>
+  </section>
+
+  <!-- Book Club Cards -->
+  <main>
+    <h2 class="section-title">🌟 Explore Book Clubs</h2>
+    <div id="club-list" class="club-grid">
+
+      <!-- Club 1 -->
+      <div class="club-card" data-id="101">
+        <img src="assets/images/Classic Reads.jpeg" alt="Classic Reads" />
+        <div class="content">
+          <h3>Classic Reads Club</h3>
+          <p>Fans of timeless literature and iconic authors unite here.</p>
+          <p><strong>Genre:</strong> Classics | <strong>Spots:</strong> 3</p>
+          <button class="join-btn" onclick="alert('You joined Classic Reads Club!')">Join</button>
+          <button class="details-btn" onclick="viewDetails(101)">📖 Club Details</button>
+        </div>
+      </div>
+
+      <!-- Club 2 -->
+      <div class="club-card" data-id="102">
+        <img src="assets/images/Mystery Masters.jpg" alt="Mystery Masters" />
+        <div class="content">
+          <h3>Mystery Masters</h3>
+          <p>Crack clues and discuss mystery novels with fellow sleuths.</p>
+          <p><strong>Genre:</strong> Mystery | <strong>Spots:</strong> 5</p>
+          <button class="join-btn" onclick="alert('You joined Mystery Masters!')">Join</button>
+          <button class="details-btn" onclick="viewDetails(102)">📖 Club Details</button>
+        </div>
+      </div>
+
+      <!-- Club 3 -->
+      <div class="club-card" data-id="103">
+        <img src="assets/images/Sci-Fi Galaxy.jpg" alt="Sci-Fi Galaxy" />
+        <div class="content">
+          <h3>Sci-Fi Galaxy</h3>
+          <p>Explore galaxies and distant futures in sci-fi classics and new releases.</p>
+          <p><strong>Genre:</strong> Sci-Fi | <strong>Spots:</strong> 2</p>
+          <button class="join-btn" onclick="alert('You joined Sci-Fi Galaxy!')">Join</button>
+          <button class="details-btn" onclick="viewDetails(103)">📖 Club Details</button>
+          
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Book Club Management System | Made with ❤️ for Readers</p>
+  </footer>
+
+  <script>
+    // Search functionality
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const clubs = document.querySelectorAll('.club-card');
+      clubs.forEach(club => {
+        const text = club.innerText.toLowerCase();
+        club.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    });
+
+    // View details redirect
+    function viewDetails(clubId) {
+      localStorage.setItem("selectedClubId", clubId);
+      window.location.href = "club-details.html";
+    }
+  </script>
+</body>
+</html>

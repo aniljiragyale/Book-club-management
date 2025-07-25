@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  color: #333;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard {
+  max-width: 800px;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #17a2b8;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.user-info {
+  text-align: center;
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.club-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.club-card {
+  background: #f4f4f4;
+  padding: 20px;
+  border-left: 5px solid #17a2b8;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.club-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.club-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #343a40;
+}
+
+.club-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.no-clubs {
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-clubs a {
+  color: #17a2b8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.logout-btn {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 25px;
+  background-color: #17a2b8;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #117a8b;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4f8;
+  padding: 20px;
+}
+
+.dashboard {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+#usernameDisplay {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.club-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.club-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.club-card:hover {
+  transform: scale(1.02);
+}
+
+.club-card h3 {
+  margin-top: 0;
+}
+
+.club-card button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn {
+  margin-top: 30px;
+  background-color: #dc3545;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.modal-content button {
+  margin: 10px 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-content button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-content button:last-child {
+  background-color: #6c757d;
+  color: white;
+}
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📖 Club Details</title>
+  <link rel="stylesheet" href="styles/club-details.css" />
+</head>
+<body>
+  <div class="details-container" id="clubDetails"></div>
+
+  <div style="text-align: center; margin-top: 20px;">
+    <button class="back-btn" onclick="goBack()">🔙 Back to Clubs</button>
+  </div>
+
+  <script>
+    // Dummy data (you can replace with localStorage.getItem("clubs") if needed)
+    const clubs = [
+      {
+        id: 101,
+        name: "Classic Reads Club",
+        genre: "Classics",
+        description: "Fans of timeless literature and iconic authors unite here.",
+        image: "assets/images/Classic Reads.jpeg",
+        organizer: "admin1",
+        maxMembers: 10,
+        currentMembers: 7
+      },
+      {
+        id: 102,
+        name: "Mystery Masters",
+        genre: "Mystery",
+        description: "Crack clues and discuss mystery novels with fellow sleuths.",
+        image: "assets/images/Mystery Masters.jpg",
+        organizer: "admin2",
+        maxMembers: 15,
+        currentMembers: 10
+      },
+      {
+        id: 103,
+        name: "Sci-Fi Galaxy",
+        genre: "Sci-Fi",
+        description: "Explore galaxies and distant futures in sci-fi classics and new releases.",
+        image: "assets/images/Sci-Fi Galaxy.jpg",
+        organizer: "admin3",
+        maxMembers: 12,
+        currentMembers: 10
+      }
+    ];
+
+    const selectedId = parseInt(localStorage.getItem("selectedClubId"));
+    const club = clubs.find(c => c.id === selectedId);
+
+    const detailsDiv = document.getElementById("clubDetails");
+
+    if (!club) {
+      detailsDiv.innerHTML = "<p>❌ Club not found.</p>";
+    } else {
+      detailsDiv.innerHTML = `
+        <img src="${club.image}" alt="${club.name}" class="details-image" />
+        <h2 class="details-title">${club.name}</h2>
+        <p class="details-genre">📚 <strong>Genre:</strong> ${club.genre}</p>
+        <p class="details-description">${club.description}</p>
+        <p class="details-organizer">👤 <strong>Organizer:</strong> ${club.organizer}</p>
+        <p class="details-members">👥 <strong>Members:</strong> ${club.currentMembers} / ${club.maxMembers}</p>
+      `;
+    }
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

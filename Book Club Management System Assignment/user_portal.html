@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Dashboard | Book Club Hub</title>
+  <link rel="stylesheet" href="styles/user_portal.css" />
+</head>
+<body>
+  <section class="dashboard">
+    <h2>📚 Welcome to Your Book Clubs</h2>
+    <p id="usernameDisplay"></p>
+
+    <div id="clubContainer" class="club-list"></div>
+
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </section>
+
+  <!-- Join Confirmation Modal -->
+  <div id="confirmModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Confirm Club Join</h3>
+      <p id="clubDetails"></p>
+      <button onclick="confirmJoin()">Yes, Join</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user || user.role !== "member") {
+      alert("Access denied!");
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("usernameDisplay").textContent = `👋 Logged in as: ${user.username}`;
+    }
+
+    const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+    const clubContainer = document.getElementById("clubContainer");
+
+    clubs.forEach(club => {
+      const div = document.createElement("div");
+      div.className = "club-card";
+      div.innerHTML = `
+        <h3>${club.name}</h3>
+        <p><strong>Genre:</strong> ${club.genre}</p>
+        <p>${club.description}</p>
+        <p><strong>Organizer:</strong> ${club.organizer}</p>
+        <p><strong>Spots:</strong> ${club.currentMembers}/${club.maxMembers}</p>
+        <button onclick="showConfirmation(${club.id})">Join Club</button>
+      `;
+      clubContainer.appendChild(div);
+    });
+
+    let selectedClubId = null;
+
+    function showConfirmation(id) {
+      const club = clubs.find(c => c.id === id);
+      selectedClubId = id;
+
+      const clubDetails = `
+        <strong>${club.name}</strong><br>
+        Genre: ${club.genre}<br>
+        Organizer: ${club.organizer}<br>
+        Spots: ${club.currentMembers}/${club.maxMembers}
+      `;
+
+      document.getElementById("clubDetails").innerHTML = clubDetails;
+      document.getElementById("confirmModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("confirmModal").classList.add("hidden");
+    }
+
+    function confirmJoin() {
+      const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+      const joinedClubs = JSON.parse(localStorage.getItem("joinedClubs")) || {};
+      const user = JSON.parse(localStorage.getItem("loggedInUser"));
+      const clubIndex = clubs.findIndex(c => c.id === selectedClubId);
+      const selectedClub = clubs[clubIndex];
+
+      const userJoinedClubs = joinedClubs[user.username] || [];
+
+      if (userJoinedClubs.includes(selectedClubId)) {
+        alert("You already joined this club!");
+        closeModal();
+        return;
+      }
+
+      if (selectedClub.currentMembers < selectedClub.maxMembers) {
+        selectedClub.currentMembers += 1;
+        clubs[clubIndex] = selectedClub;
+        localStorage.setItem("clubs", JSON.stringify(clubs));
+
+        userJoinedClubs.push(selectedClubId);
+        joinedClubs[user.username] = userJoinedClubs;
+        localStorage.setItem("joinedClubs", JSON.stringify(joinedClubs));
+
+        alert(`${user.username} joined the club: ${selectedClub.name}`);
+        closeModal();
+        window.location.href = "user_portal.html";
+      } else {
+        alert("No spots left in this club.");
+        closeModal();
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    }
+    
+  function confirmJoin() {
+    const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+    const joinedClubs = JSON.parse(localStorage.getItem("joinedClubs")) || {};
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    const clubIndex = clubs.findIndex(c => c.id === selectedClubId);
+    const selectedClub = clubs[clubIndex];
+
+    const userJoinedClubs = joinedClubs[user.username] || [];
+
+    if (userJoinedClubs.includes(selectedClubId)) {
+      alert("You already joined this club!");
+      closeModal();
+      return;
+    }
+
+    if (selectedClub.currentMembers < selectedClub.maxMembers) {
+      // 1. Update member count
+      selectedClub.currentMembers += 1;
+      clubs[clubIndex] = selectedClub;
+      localStorage.setItem("clubs", JSON.stringify(clubs));
+
+      // 2. Track which clubs this user has joined
+      userJoinedClubs.push(selectedClubId);
+      joinedClubs[user.username] = userJoinedClubs;
+      localStorage.setItem("joinedClubs", JSON.stringify(joinedClubs));
+
+      // 3. Save member data into the specific club's member list
+      const memberEntry = {
+        name: user.username,
+        email: user.email || "N/A", // optional field, if available
+        joinedAt: new Date().toLocaleString()
+      };
+
+      const key = `members_${selectedClubId}`;
+      const memberList = JSON.parse(localStorage.getItem(key)) || [];
+      memberList.push(memberEntry);
+      localStorage.setItem(key, JSON.stringify(memberList));
+
+      alert(`${user.username} joined the club: ${selectedClub.name}`);
+      closeModal();
+      window.location.href = "user_portal.html";
+    } else {
+      alert("No spots left in this club.");
+      closeModal();
+    }
+  }
+
+
+  </script>
+</body>
+</html>

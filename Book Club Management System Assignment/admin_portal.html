@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal | Book Club Hub</title>
+  <link rel="stylesheet" href="styles/admin_portal.css" />
+</head>
+<body>
+  <section class="admin-dashboard">
+    <h2>📋 All Created Book Clubs</h2>
+    <div id="clubList" class="club-list"></div>
+  </section>
+
+  <section class="form-section">
+    <h2>➕ Add New Book Club</h2>
+    <form id="clubForm">
+      <input type="text" id="clubName" placeholder="Club Name" required />
+      <input type="text" id="genre" placeholder="Genre / Category" required />
+      <textarea id="description" placeholder="Detailed Description" required></textarea>
+      <input type="text" id="cover" placeholder="Cover Image URL" required />
+      <input type="number" id="capacity" placeholder="Max Members" required />
+      <button type="submit">Add Club</button>
+    </form>
+  </section>
+
+  <div class="logout-container">
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user || user.role !== "organizer") {
+      alert("Access denied!");
+      window.location.href = "login.html";
+    }
+
+    const clubList = document.getElementById("clubList");
+    const clubs = JSON.parse(localStorage.getItem("clubs")) || [];
+
+    function renderClubs() {
+      clubList.innerHTML = "";
+      clubs.forEach(club => {
+        const div = document.createElement("div");
+        div.className = "club-card";
+        div.innerHTML = `
+          <h3>${club.name}</h3>
+          <p><strong>Genre:</strong> ${club.genre}</p>
+          <p>${club.description}</p>
+          <p><strong>Organizer:</strong> ${club.organizer}</p>
+          <p><strong>Members:</strong> ${club.currentMembers}/${club.maxMembers}</p>
+          <button onclick="viewMembers(${club.id})">📋 View Members</button>
+          <hr>
+        `;
+        clubList.appendChild(div);
+      });
+    }
+
+    renderClubs();
+
+    // Add Club Logic
+    document.getElementById("clubForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const newClub = {
+        id: Date.now(),
+        name: document.getElementById("clubName").value,
+        genre: document.getElementById("genre").value,
+        description: document.getElementById("description").value,
+        cover: document.getElementById("cover").value,
+        maxMembers: parseInt(document.getElementById("capacity").value),
+        currentMembers: 0,
+        organizer: user.username
+      };
+
+      clubs.push(newClub);
+      localStorage.setItem("clubs", JSON.stringify(clubs));
+      alert("✅ Club Added Successfully!");
+      renderClubs();
+      document.getElementById("clubForm").reset();
+    });
+
+    function viewMembers(clubId) {
+      localStorage.setItem("viewClubId", clubId); // Store selected club ID
+      window.location.href = "members.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
