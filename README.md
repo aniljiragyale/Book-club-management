@@ -40,7 +40,7 @@ Book-club-management/
 
 **Anil Jiragyale**  
 🔗 [Portfolio](https://portfolio-anil-gamma.vercel.app)  
-📧 aniljiragyale@gmail.com
+📧 aniljiragyale213@gmail.com
 
 ---
 
